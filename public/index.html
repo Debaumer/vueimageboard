@@ -7,12 +7,17 @@
 </head>
 <body>
     <div id="main">
-      <h1>{{ heading }}</h1>
+      <h1>{{heading}}</h1>
+      <ul>
+        <li v-for="city in cities">{{city.name}}, {{city.country}}
+      </ul>
+      <h3 @click='clicker'>clicking is fun!!!</h3>
+        <!-- <h3 v-on:click = ''> </h3> -->
     </div>
 
 </body>
 </html>
 
+<script src="/js/axios.min.js"></script>
 <script src="/js/vue.js"></script>
 <script src="js/script.js"></script>
-<script src="/js/axios.min.js"></script>
