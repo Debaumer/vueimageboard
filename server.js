@@ -1,22 +1,16 @@
 // this is the server
 const express = require('express');
 const app = express();
-
-let cities = [
-    {
-        name: 'Berlin',
-        country: 'Germany'
-    },
-    {
-        name: 'Hamburg',
-        country: 'Germany'
-    }
-];
+const db = require('./db');
 app.use(express.static('./public'));
 
 app.get("/get-cities", (req,res) => {
   console.log('you did it');
-  res.json(cities);
-})
+  db.getAll().then(data=> {
+    res.json(data.rows)
+  }).catch(err => {
+    console.log(err);
+  });
+});
 
 app.listen(8080, ()=> console.log('SERVER ONLINE'))
