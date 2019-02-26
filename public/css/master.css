@@ -1,5 +1,6 @@
 body {
     font-family: sans-serif;
+    background-color: #00000011;
 }
 
 #title {
@@ -13,14 +14,24 @@ body {
     flex-wrap: wrap;
     flex-direction: row;
     align-content: space-around;
+    background-color: #10000e22;
 }
 
-#upload {
+#uploadForm {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    flex-wrap: wrap;
+    height: 300px;
+    width: 200px;
+}
+
+#upload input {
+    margin: 10px;
 }
 
 .card {
+    width: auto;
+    height: auto;
     border-radius: 5px;
     margin: 20px;
     box-shadow: 10px 2px rgba(0, 0, 0, 0.1);

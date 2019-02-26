@@ -8,22 +8,24 @@
 <body>
     <div id="title">
       <h1>{{heading}}</h1>
-
-      <form id="upload" method="POST">
-          <label for="title">Title:</label>
-            <input type="text" name="title">
+    </div>
+      <form id="uploadForm" method="POST">
+          <label for="title">Title</label>
+            <input type="text" v-model="form.title">
 
           <label for="description">Description:</label>
-            <input name="descritption">
+            <input name="descritption" v-model="form.description">
 
           <label for="username">Username:</label>
-            <input name="username">
+            <input name="username" v-model="form.username">
 
           <label for="image">Image upload</label>
-          <input name="image" type="file" accepts="image/*">
+          <input name="image" type="file" accepts="image/*" @change="getImg">
+
+          <button @click="upload">upload image</button>
       </form>
 
-    </div>
+
     <section id="board" v-if="items.length > 0">
         <div class="card" v-for="item in items">
             <h1>{{item.id}}</h1>
