@@ -8,31 +8,16 @@
 <body>
     <div id="title">
       <h1>{{heading}}</h1>
-        <!-- <h3 v-on:click = ''> </h3> -->
     </div>
-    <!--  this is all just mockup  -->
-    <section id="board">
-      <div class="card">
-        <h2>Here is the heading</h2>
-        <p>Here some info:  <em>about 6 hours ago</em></p>
-        <img src="#" alt="here is where an image would be">
-      </div>
-      <div class="card">
-        <h2>Here is the heading</h2>
-        <p>Here some info: <em>about 6 hours ago</em></p>
-        <img src="#" alt="here is where an image would be">
-      </div>
-      <div class="card">
-        <h2>Here is the heading</h2>
-        <p>Here some info: <em>about 6 hours ago</em></p>
-        <img src="#" alt="here is where an image would be">
-      </div>
-      <div class="card">
-        <h2>Here is the heading</h2>
-        <p>Here some info: <em>about 6 hours ago</em></p>
-        <img src="#" alt="here is where an image would be">
-      </div>
-  </section>
+    <section id="board" v-if="items.length > 0">
+        <div class="card" v-for="item in items">
+            <h1>{{item.id}}</h1>
+            <h1>{{item.title}}</h1>
+            <h1>{{item.descritption}}</h1>
+            <h1>{{item.username}}</h1>
+            <img class="cardImg" :src=item.url>
+        </div>
+    </section>
 </body>
 </html>
 
