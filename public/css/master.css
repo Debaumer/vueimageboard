@@ -15,6 +15,11 @@ body {
     align-content: space-around;
 }
 
+#upload {
+    display: flex;
+    flex-direction: row;
+}
+
 .card {
     border-radius: 5px;
     margin: 20px;
@@ -23,6 +28,6 @@ body {
 }
 
 .cardImg {
-    width: 400px;
-    height: 400px;
+    width: 300px;
+    height: 300px;
 }

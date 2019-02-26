@@ -11,6 +11,18 @@ var hello = "this is my greeting";
 
 (function() {
     new Vue({
+        el: "#upload",
+        data: {},
+        methods: {
+            upload: function(e) {
+                console.log("upload started");
+            }
+        }
+    });
+})();
+
+(function() {
+    new Vue({
         el: "#board",
         data: {
             items: []
