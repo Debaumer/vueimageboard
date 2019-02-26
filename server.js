@@ -15,4 +15,4 @@ app.get("/imgpath", (req, res) => {
         });
 });
 
-app.listen(8080, () => console.log("SERVER ONLINE"));
+app.listen(process.env.PORT || 8080, () => console.log("SERVER ONLINE"));
