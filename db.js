@@ -5,8 +5,6 @@ const db = spicedPg(
         "postgres:postgres:postgres@localhost:5432/testImages"
 );
 
-console.log(db);
-
 module.exports.getAll = function() {
     const qs = "SELECT * FROM images";
     return db.query(qs);

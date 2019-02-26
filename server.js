@@ -6,8 +6,7 @@ app.use(express.static("./public"));
 var multer = require("multer");
 var uidSafe = require("uid-safe");
 var path = require("path");
-
-app.use(express.static(__dirname + "/public"));
+app.use(express.static("./public"));
 
 var diskStorage = multer.diskStorage({
     destination: function(req, file, callback) {
@@ -15,7 +14,7 @@ var diskStorage = multer.diskStorage({
     },
     filename: function(req, file, callback) {
         uidSafe(24).then(function(uid) {
-            callback(null, uid + path.extname(file.origionalname));
+            callback(null, uid + path.extname(file.originalname));
         });
     }
 });
@@ -28,6 +27,7 @@ var uploader = multer({
 });
 
 app.post("/upload", uploader.single("file"), function(req, res) {
+    // If nothing went wrong the file is already in the uploads directory
     if (req.file) {
         res.json({
             success: true
@@ -40,7 +40,6 @@ app.post("/upload", uploader.single("file"), function(req, res) {
 });
 
 app.get("/imgpath", (req, res) => {
-    console.log("you did it");
     db.getAll()
         .then(data => {
             res.json(data.rows);

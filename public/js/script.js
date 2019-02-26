@@ -23,8 +23,6 @@ var hello = "this is my greeting";
         },
         methods: {
             upload: function(e) {
-                console.log("upload started", "event: " + e, "this: ", this);
-                console.log(this.form.description);
                 e.preventDefault();
                 var formData = new FormData();
                 formData.append("file", this.form.file);
@@ -32,11 +30,17 @@ var hello = "this is my greeting";
                 formData.append("description", this.form.description);
                 formData.append("username", this.form.username);
                 //console.log(formData); this is always empty, but append does work
-                axios.post("/upload", formData);
+                axios
+                    .post("/upload", formData)
+                    .then(function(resp) {
+                        console.log(resp);
+                    })
+                    .catch(function(err) {
+                        console.log(err);
+                    });
             },
             getImg: function(e) {
                 this.form.file = e.target.files[0];
-                console.log(this.form.file);
             }
         },
         created: function() {
