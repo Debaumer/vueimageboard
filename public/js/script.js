@@ -26,7 +26,7 @@ var hello = "this is my greeting";
                 e.preventDefault();
                 var formData = new FormData();
                 formData.append("file", this.form.file);
-                formData.append("title", this.form.tile);
+                formData.append("title", this.form.title);
                 formData.append("description", this.form.description);
                 formData.append("username", this.form.username);
                 //console.log(formData); this is always empty, but append does work
