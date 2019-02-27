@@ -33,12 +33,8 @@ app.use(express.static("./public"));
 app.post("/upload", uploader.single("file"), s3.upload, function(req, res) {
     // If nothing went wrong the file is already in the uploads directory
 
-    console.log("req.file", req.file);
-    console.log("req.body", req.body);
-
     if (req.file) {
         var url = s3Url.s3Url + req.file.filename;
-        console.log(req.file);
         console.log("url", url);
 
         db.insertImages(
@@ -47,7 +43,7 @@ app.post("/upload", uploader.single("file"), s3.upload, function(req, res) {
             req.body.title,
             req.body.description
         ).then(data => {
-            console.log("DATA: ", data);
+            //console.log("DATA: ", data);
             // INSERT title, description, username the full s3 url and the filename
             res.json(data.rows);
             //console log data, see if stuff is there, and once it looks good, chain a then response to axios
