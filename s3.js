@@ -10,7 +10,7 @@ if (process.env.NODE_ENV == "production") {
 const client = knox.createClient({
     key: secrets.AWS_KEY,
     secret: secrets.AWS_SECRET,
-    bucket: "spicedtestimages"
+    bucket: "jboardspcd"
 });
 
 exports.upload = function(req, res, next) {
@@ -33,7 +33,7 @@ exports.upload = function(req, res, next) {
         if (wasSuccessful) {
             next();
         } else {
-            res.sendStatus(500);
+            res.sendStatus(s3Response.statusCode);
         }
     });
 };
