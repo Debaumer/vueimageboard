@@ -2,9 +2,12 @@
 <html>
 <head>
     <link rel="stylesheet" href="/css/master.css">
+    <link rel="stylesheet" href="/css/example.css">
     <meta charset="utf-8">
     <title>Jboard</title>
 </head>
+
+
 <body>
     <div id="title">
       <h1>{{heading}}</h1>
@@ -25,19 +28,36 @@
           <button @click="upload">upload image</button>
       </form>
 
-
     <section id="board" v-if="items.length > 0">
+        <!-- <modal v-bind:id="id" style="background-color: red; width:100px;height:100px">
+        </modal> -->
+        <!-- <button-counter></button-counter> -->
         <div class="card" v-for="item in items">
-            <h1>{{item.id}}</h1>
-            <h1>{{item.title}}</h1>
-            <h1>{{item.descritption}}</h1>
-            <h1>{{item.username}}</h1>
-            <img class="cardImg" :src=item.url>
+            <h1>{{item["created_at"]}}</h1>
+            <img-wrap
+            v-bind:id="item.id"
+            v-bind:title="item.title"
+            v-bind:username="item.username"
+            v-bind:description="item.description"
+            v-bind:url="item.url"
+            >
+            </img-wrap>
         </div>
     </section>
+
+<script id="img-wrap" type="text/x-template">
+    <div>
+        <h1>{{id}}</h1>
+        <h1>{{title}}</h1>
+        <h1>{{description}}</h1>
+        <h1>{{username}}</h1>
+        <img v-on:click="clicked" class="cardImg" v-bind:src="url">
+    </div>
+</script>
+
 </body>
 </html>
 
 <script src="/js/axios.min.js"></script>
 <script src="/js/vue.js"></script>
-<script src="js/script.js"></script>
+<script src="/js/script.js"></script>

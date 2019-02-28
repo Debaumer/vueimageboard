@@ -35,7 +35,6 @@ app.post("/upload", uploader.single("file"), s3.upload, function(req, res) {
 
     if (req.file) {
         var url = s3Url.s3Url + req.file.filename;
-        console.log("url", url);
 
         db.insertImages(
             url,

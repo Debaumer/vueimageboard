@@ -10,6 +10,20 @@ body {
     align-items: left;
 }
 
+.target {
+    background-color: rgba(255, 0, 0, 0.5);
+    left: 0;
+    top: 0;
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    z-index: 100;
+}
+
+.hidden {
+    display: none;
+}
+
 #board {
     display: flex;
     flex-wrap: wrap;
@@ -31,6 +45,7 @@ body {
 }
 
 .card {
+    position: relative;
     width: auto;
     height: auto;
     width: 300px;

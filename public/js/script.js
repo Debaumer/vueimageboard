@@ -1,5 +1,6 @@
 var hello = "this is my greeting";
 
+//title and header
 (function() {
     new Vue({
         el: "#title",
@@ -9,6 +10,7 @@ var hello = "this is my greeting";
     });
 })(hello);
 
+//upload form and 'bridge/hook'
 (function() {
     new Vue({
         el: "#uploadForm",
@@ -50,12 +52,23 @@ var hello = "this is my greeting";
     });
 })();
 
+//boards
 (function() {
+    // Vue.component("button-counter", {
+    //     data: function() {
+    //         return {
+    //             count: 0
+    //         };
+    //     },
+    //     template: `<button v-on:click="count++">{{count}}</button>`
+    // });
+
     new Vue({
         el: "#board",
         data: {
             items: []
         },
+        methods: {},
         created: function() {
             var self = this;
             axios
@@ -69,5 +82,21 @@ var hello = "this is my greeting";
         }
         // created: ,
         // mounted: ,
+    });
+
+    Vue.component("img-wrap", {
+        props: ["title", "description", "url", "username", "id", "timestamp"],
+        methods: {
+            clicked: function(e) {
+                console.log(e);
+            }
+        },
+        template: `#img-wrap`
+    });
+
+    Vue.component("post-modal", {
+        props: ["title", "description", "url", "username", "id", "timestamp"],
+        methods: {},
+        template: "<h1>It me, ur modal</h1>"
     });
 })();
