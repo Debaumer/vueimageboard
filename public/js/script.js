@@ -1,27 +1,17 @@
-var hello = "this is my greeting";
-
 //title and header
 (function() {
     new Vue({
-        el: "#title",
+        el: "#app",
         data: {
-            heading: "J board"
-        }
-    });
-})(hello);
-
-//upload form and 'bridge/hook'
-(function() {
-    new Vue({
-        el: "#uploadForm",
-        data: {
+            heading: "J board",
             name: "hello",
             form: {
                 title: "",
                 username: "",
                 description: "",
                 file: null
-            }
+            },
+            items: []
         },
         methods: {
             upload: function(e) {
@@ -45,30 +35,7 @@ var hello = "this is my greeting";
                 this.form.file = e.target.files[0];
             }
         },
-        created: function() {
-            console.log("hello");
-            console.log(this);
-        }
-    });
-})();
-
-//boards
-(function() {
-    // Vue.component("button-counter", {
-    //     data: function() {
-    //         return {
-    //             count: 0
-    //         };
-    //     },
-    //     template: `<button v-on:click="count++">{{count}}</button>`
-    // });
-
-    new Vue({
-        el: "#board",
-        data: {
-            items: []
-        },
-        methods: {},
+        mounted: function() {},
         created: function() {
             var self = this;
             axios
@@ -80,10 +47,7 @@ var hello = "this is my greeting";
                     console.log("ERROR", err);
                 });
         }
-        // created: ,
-        // mounted: ,
     });
-
     Vue.component("img-wrap", {
         props: ["title", "description", "url", "username", "id", "timestamp"],
         methods: {
@@ -99,4 +63,16 @@ var hello = "this is my greeting";
         methods: {},
         template: "<h1>It me, ur modal</h1>"
     });
+})();
+
+//boards
+(function() {
+    // Vue.component("button-counter", {
+    //     data: function() {
+    //         return {
+    //             count: 0
+    //         };
+    //     },
+    //     template: `<button v-on:click="count++">{{count}}</button>`
+    // });
 })();
