@@ -54,6 +54,17 @@ app.post("/upload", uploader.single("file"), s3.upload, function(req, res) {
     }
 });
 
+app.get("/get-count", (req, res) => {
+    db.getTotalImg(req.body.id)
+        .then(data => {
+            console.log(data);
+            res.json(data);
+        })
+        .catch(err => {
+            console.log("get count err", err);
+        });
+});
+
 app.get("/imgpath", (req, res) => {
     db.getAll()
         .then(data => {

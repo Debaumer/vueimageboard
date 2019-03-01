@@ -1,16 +1,36 @@
 <!doctype html>
 <html>
-<head>
-    <link rel="stylesheet" href="/css/master.css">
-    <link rel="stylesheet" href="/css/example.css">
-    <meta charset="utf-8">
-    <title>Jboard</title>
-</head>
-
 
 <body>
+    <head>
+        <link rel="stylesheet" href="/css/master.css">
+        <link rel="stylesheet" href="/css/modal.css">
+        <meta charset="utf-8">
+        <title>Jboard</title>
+    </head>
     <div id="app">
+      <div id="modal">
+          <div id="popup">
+              <img id="popimg">
+              <form id="commentForm" method="POST">
+                  <label for="username"><h3>username</h3></label>
+                  <input type="text" name="username">
+                  <label for="comment"><h3>comment</h3></label>
+                  <textarea id="commentArea" type="text" name="comment"></textarea>
+              </form>
+              <section id="commentSection">
+                  <div>
+                      <h3>mockusername</h3>
+                      <p>lorem ipsum biggus dickus</p>
+                  </div>
+              </section>
+          </div>
+          <section>
+
+          </section>
+      </div>
       <h1>{{heading}}</h1>
+
       <form id="uploadForm" method="POST">
           <label for="title">Title</label>
             <input type="text" v-model="form.title">
@@ -39,6 +59,7 @@
             v-bind:username="item.username"
             v-bind:description="item.description"
             v-bind:url="item.url"
+            v-on
             >
             </img-wrap>
         </div>

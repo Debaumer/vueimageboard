@@ -20,10 +20,6 @@ body {
     z-index: 100;
 }
 
-.hidden {
-    display: none;
-}
-
 #board {
     display: flex;
     flex-wrap: wrap;
@@ -40,7 +36,7 @@ body {
     width: 200px;
 }
 
-#upload input {
+input {
     margin: 10px;
 }
 

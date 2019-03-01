@@ -52,7 +52,8 @@
         props: ["title", "description", "url", "username", "id", "timestamp"],
         methods: {
             clicked: function(e) {
-                console.log(e);
+                console.log(this.id);
+                this.$emit("openModal", this.id);
             }
         },
         template: `#img-wrap`
