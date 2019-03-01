@@ -4,14 +4,28 @@
         el: "#app",
         data: {
             heading: "J board",
-            name: "hello",
             form: {
                 title: "",
                 username: "",
                 description: "",
                 file: null
             },
-            items: []
+            items: [],
+            modal: {
+                index: null,
+                show: false,
+                url: null
+            },
+            comments: [
+                {
+                    username: "seamus",
+                    comment: "yeehaw"
+                },
+                {
+                    username: "barclay",
+                    comment: "yeyah"
+                }
+            ]
         },
         methods: {
             upload: function(e) {
@@ -33,6 +47,36 @@
             },
             getImg: function(e) {
                 this.form.file = e.target.files[0];
+            },
+            show: function(id) {
+                var index = null;
+                for (var i = 0; i < this.items.length; i++) {
+                    if (this.items[i].id == id) {
+                        index = i;
+                        console.log(index);
+                        break;
+                    }
+                }
+                this.modal.index = index;
+                this.modal.url = this.items[index].url;
+                this.modal.show = true;
+                console.log(this.modal.url);
+            },
+            hide: function(e) {
+                console.log(e); //currently returning undefined
+                this.modal.show = false;
+                this.modal.id = null;
+            },
+            getComments: function(id) {
+                axios
+                    .get("/get-comments", id)
+                    .then(function(data) {
+                        console.log(id);
+                        console.log(data);
+                    })
+                    .catch(function(err) {
+                        console.log(err);
+                    });
             }
         },
         mounted: function() {},
@@ -48,32 +92,32 @@
                 });
         }
     });
+
     Vue.component("img-wrap", {
         props: ["title", "description", "url", "username", "id", "timestamp"],
+        data: function() {
+            return {};
+        },
         methods: {
-            clicked: function(e) {
-                console.log(this.id);
-                this.$emit("openModal", this.id);
+            openmodal: function() {
+                this.$emit("openmodal", this.id);
             }
         },
         template: `#img-wrap`
     });
 
-    Vue.component("post-modal", {
-        props: ["title", "description", "url", "username", "id", "timestamp"],
-        methods: {},
-        template: "<h1>It me, ur modal</h1>"
+    Vue.component("modal-wrap", {
+        props: ["id", "comments", "url"],
+        data: function() {
+            return {};
+        },
+        methods: {
+            closemodal: function(e) {
+                console.log(this.comments);
+                e.stopPropagation();
+                this.$emit("closemodal");
+            }
+        },
+        template: "#modal-wrap"
     });
-})();
-
-//boards
-(function() {
-    // Vue.component("button-counter", {
-    //     data: function() {
-    //         return {
-    //             count: 0
-    //         };
-    //     },
-    //     template: `<button v-on:click="count++">{{count}}</button>`
-    // });
 })();

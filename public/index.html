@@ -1,35 +1,19 @@
 <!doctype html>
 <html>
-
 <body>
     <head>
         <link rel="stylesheet" href="/css/master.css">
         <link rel="stylesheet" href="/css/modal.css">
         <meta charset="utf-8">
-        <title>Jboard</title>
+        <title>J board</title>
     </head>
     <div id="app">
-      <div id="modal">
-          <div id="popup">
-              <img id="popimg">
-              <form id="commentForm" method="POST">
-                  <label for="username"><h3>username</h3></label>
-                  <input type="text" name="username">
-                  <label for="comment"><h3>comment</h3></label>
-                  <textarea id="commentArea" type="text" name="comment"></textarea>
-              </form>
-              <section id="commentSection">
-                  <div>
-                      <h3>mockusername</h3>
-                      <p>lorem ipsum biggus dickus</p>
-                  </div>
-              </section>
-          </div>
-          <section>
-
-          </section>
-      </div>
-      <h1>{{heading}}</h1>
+     <h1>{{heading}}</h1>
+     <modal-wrap v-if="modal.show == true"
+     v-on:closemodal="hide"
+     v-bind:comments="comments"
+     v-bind:url="modal.url"
+     ></modal-wrap>
 
       <form id="uploadForm" method="POST">
           <label for="title">Title</label>
@@ -48,23 +32,19 @@
       </form>
 
     <section id="board" v-if="items.length > 0">
-        <!-- <modal v-bind:id="id" style="background-color: red; width:100px;height:100px">
-        </modal> -->
-        <!-- <button-counter></button-counter> -->
         <div class="card" v-for="item in items">
             <h1>{{item["created_at"]}}</h1>
             <img-wrap
+            v-on:openmodal="show($event)"
             v-bind:id="item.id"
             v-bind:title="item.title"
             v-bind:username="item.username"
             v-bind:description="item.description"
             v-bind:url="item.url"
-            v-on
             >
             </img-wrap>
         </div>
     </section>
-
 </div>
 
 <script id="img-wrap" type="text/x-template">
@@ -73,8 +53,31 @@
         <h1>{{title}}</h1>
         <h1>{{description}}</h1>
         <h1>{{username}}</h1>
-        <img v-on:click="clicked" class="cardImg" v-bind:src="url">
+        <img v-on:click="openmodal" class="cardImg" v-bind:src="url">
     </div>
+</script>
+
+<script id="modal-wrap" type="text/x-template">
+        <div id="modal" v-on:click="closemodal($event)">
+            <div id="block">
+                <h1>X</h1>
+                <h1>title</h1>
+                <img id="blockImage" alt="id" v-bind:src="url">
+                <form method="post" id="flexCol">
+                    <label for="username">Username:</label>
+                    <input name="username">
+                    <label for="comment">Comment:</label>
+                    <textarea id="comment" name="comment"></textarea>
+                </form>
+                <h1>Comments</h1>
+                <section id="comments" v-for="item in comments">
+                    <div class="commentCard">
+                        <h1>{{item.username}}</h1>
+                        <p>{{item.comment}}</p>
+                    </div>
+                </section>
+            </div>
+        </div>
 </script>
 
 </body>

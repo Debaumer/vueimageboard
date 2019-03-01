@@ -26,7 +26,7 @@ module.exports.insertImages = function insertImages(
     );
 };
 
-module.exports.uploadComments = function uploadComments(username, comment, id) {
+module.exports.insertComment = function insertComment(username, comment, id) {
     return db.query(
         `INSERT INTO comments(username, comment, image_id) VALUES ($1, $2, $3) RETURNING *`,
         [username, comment, id]
