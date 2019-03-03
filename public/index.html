@@ -10,7 +10,7 @@
     <div id="app">
      <h1>{{heading}}</h1>
      <button v-on:click="showstate">showstate</button>
-     <div>
+     <div v-if="modal.show ==true" style="bottom: 5%; left: 50%; margin: auto; position: absolute">
          <modal-wrap
          v-if="modal.show == true"
          v-bind:id="modal.id"
@@ -21,21 +21,17 @@
          v-bind:username="items[modal.index].username"
          v-bind:description="items[modal.index].description"
          v-bind:timestamp="items[modal.index]['created_at']"
-         v-bind:comments="comments"
+         v-model:comments="comments"
+
+         v-model:newcomment="comment.comment"
+         v-model:newcommentuser="comment.username"
+
          v-on:insertcomment="insertcomment"
          v-on:modalmount="getcomments">
-
-
      </modal-wrap>
-
-     <div>
-         <form>
-             <input type="hidden" v-bind:id="modal.id">
-             <input type="hidden" v-bind:username="newcomment.username">
-             <input type="hidden" v-bind:comment="newcomment.comment">
-         </form>
-     </div>
-
+     <form style="z-index: 10000; position:  relative">
+         <input type="text" placeholder="username">
+    </form>
     </div>
       <form id="uploadForm" method="POST">
           <label for="title">Title</label>
@@ -85,12 +81,12 @@
                 <h1>{{title}}</h1>
                 <h4>Posted by {{username}} at {{timestamp}}</h4>
                 <p>{{description}}</p>
-                <img id="blockImage" alt="id" v-bind:src="url">
+                <img id="blockImage" v-bind:alt="title" v-bind:src="url">
                 <form method="post" id="flexCol" v-on:submit.prevent="insertcomment">
                     <label for="username">Username:</label>
-                    <input name="newcomment.username" v-bind:value="username">
+                    <input name="username">
                     <label for="comment" >Comment:</label>
-                    <textarea id="comment" name="newcomment.comment" v-bind:value="comment"></textarea>
+                    <textarea id="comment" name="comment"></textarea>
                     <input type="submit" value="post comment">
                 </form>
                 <h1>Comments</h1>

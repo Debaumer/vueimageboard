@@ -58,7 +58,7 @@ app.post("/upload", uploader.single("file"), s3.upload, function(req, res) {
     }
 });
 
-app.get("/insert-comment", function(req, res) {
+app.post("/insert-comment", function(req, res) {
     console.log("req.body", req.body);
     db.insertComment(req.body.username, req.body.comment, req.body.id)
         .then(data => {

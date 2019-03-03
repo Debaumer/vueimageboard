@@ -17,7 +17,7 @@
                 show: false
             },
             comments: [],
-            newcomment: {
+            comment: {
                 username: "",
                 comment: ""
             }
@@ -76,12 +76,17 @@
                 console.log(this.newcomment.comment);
             },
             insertcomment: function(e, username, comment) {
-                this.newcomment.username = username;
-                this.newcomment.comment = comment;
+                this.comment.username = username;
+                this.comment.comment = comment;
                 var formData = new FormData();
                 formData.append("id", this.modal.id);
-                formData.append("comment", this.newcomment.comment);
-                formData.append("username", this.newcomment.username);
+                formData.append("comment", this.comment.comment);
+                formData.append("username", this.comment.username);
+                console.log(
+                    this.modal.id,
+                    this.comment.comment,
+                    this.comment.username
+                );
                 axios
                     .post("/insert-comment", formData)
                     .then(function(resp) {
@@ -105,7 +110,8 @@
             }
         },
         mounted: function() {
-            console.log(this.newcomment);
+            console.log(this.comment.comment);
+            console.log(this.comment.username);
         },
         created: function() {
             var self = this;
@@ -131,7 +137,17 @@
     });
 
     Vue.component("modal-wrap", {
-        props: ["id", "url", "title", "username", "description", "timestamp"],
+        props: [
+            "id",
+            "url",
+            "title",
+            "username",
+            "description",
+            "timestamp",
+            "comments",
+            "newcomment",
+            "commenter"
+        ],
         methods: {
             closemodal: function(e) {
                 this.$emit("closemodal", e);
