@@ -5,6 +5,7 @@ const app = express();
 const db = require("./db");
 const s3 = require("./s3");
 const s3Url = require("./config");
+var bodyparser = require("body-parser");
 
 var multer = require("multer");
 var uidSafe = require("uid-safe");
@@ -30,6 +31,9 @@ var uploader = multer({
 
 app.use(express.static("./public"));
 
+app.use(bodyparser.urlencoded({ extended: false }));
+app.use(bodyparser.json());
+
 app.post("/upload", uploader.single("file"), s3.upload, function(req, res) {
     // If nothing went wrong the file is already in the uploads directory
 
@@ -52,6 +56,29 @@ app.post("/upload", uploader.single("file"), s3.upload, function(req, res) {
             success: false
         });
     }
+});
+
+app.get("/insert-comment", function(req, res) {
+    console.log("req.body", req.body);
+    db.insertComment(req.body.username, req.body.comment, req.body.id)
+        .then(data => {
+            console.log("data rows", data.rows);
+        })
+        .catch(err => {
+            console.log(err);
+        });
+    res.end();
+});
+
+app.get("/get-comments", function(req, res) {
+    db.getComments(req.body.id)
+        .then(data => {
+            console.log(data.rows);
+            res.json();
+        })
+        .catch(err => {
+            console.log(err);
+        });
 });
 
 app.get("/get-count", (req, res) => {

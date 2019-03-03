@@ -6,7 +6,7 @@ const db = spicedPg(
 );
 
 module.exports.getAll = function() {
-    const qs = "SELECT * FROM images";
+    const qs = "SELECT * FROM images LIMIT 20";
     return db.query(qs);
 };
 

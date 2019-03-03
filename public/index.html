@@ -9,12 +9,34 @@
     </head>
     <div id="app">
      <h1>{{heading}}</h1>
-     <modal-wrap v-if="modal.show == true"
-     v-on:closemodal="hide"
-     v-bind:comments="comments"
-     v-bind:url="modal.url"
-     ></modal-wrap>
+     <button v-on:click="showstate">showstate</button>
+     <div>
+         <modal-wrap
+         v-if="modal.show == true"
+         v-bind:id="modal.id"
+         v-on:closemodal="hide"
 
+         v-bind:url="items[modal.index].url"
+         v-bind:title="items[modal.index].title"
+         v-bind:username="items[modal.index].username"
+         v-bind:description="items[modal.index].description"
+         v-bind:timestamp="items[modal.index]['created_at']"
+         v-bind:comments="comments"
+         v-on:insertcomment="insertcomment"
+         v-on:modalmount="getcomments">
+
+
+     </modal-wrap>
+
+     <div>
+         <form>
+             <input type="hidden" v-bind:id="modal.id">
+             <input type="hidden" v-bind:username="newcomment.username">
+             <input type="hidden" v-bind:comment="newcomment.comment">
+         </form>
+     </div>
+
+    </div>
       <form id="uploadForm" method="POST">
           <label for="title">Title</label>
             <input type="text" v-model="form.title">
@@ -49,25 +71,27 @@
 
 <script id="img-wrap" type="text/x-template">
     <div>
-        <h1>{{id}}</h1>
         <h1>{{title}}</h1>
-        <h1>{{description}}</h1>
-        <h1>{{username}}</h1>
+        <p>{{description}}</p>
+        <h4>Posted by: {{username}}</h4>
         <img v-on:click="openmodal" class="cardImg" v-bind:src="url">
     </div>
 </script>
 
 <script id="modal-wrap" type="text/x-template">
-        <div id="modal" v-on:click="closemodal($event)">
+        <div id="modal" v-on:click.self.prevent="closemodal($event)">
             <div id="block">
-                <h1>X</h1>
-                <h1>title</h1>
+                <h1 v-on:click.stop="closemodal($event)">X</h1>
+                <h1>{{title}}</h1>
+                <h4>Posted by {{username}} at {{timestamp}}</h4>
+                <p>{{description}}</p>
                 <img id="blockImage" alt="id" v-bind:src="url">
-                <form method="post" id="flexCol">
+                <form method="post" id="flexCol" v-on:submit.prevent="insertcomment">
                     <label for="username">Username:</label>
-                    <input name="username">
-                    <label for="comment">Comment:</label>
-                    <textarea id="comment" name="comment"></textarea>
+                    <input name="newcomment.username" v-bind:value="username">
+                    <label for="comment" >Comment:</label>
+                    <textarea id="comment" name="newcomment.comment" v-bind:value="comment"></textarea>
+                    <input type="submit" value="post comment">
                 </form>
                 <h1>Comments</h1>
                 <section id="comments" v-for="item in comments">

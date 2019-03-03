@@ -12,20 +12,15 @@
             },
             items: [],
             modal: {
+                id: null,
                 index: null,
-                show: false,
-                url: null
+                show: false
             },
-            comments: [
-                {
-                    username: "seamus",
-                    comment: "yeehaw"
-                },
-                {
-                    username: "barclay",
-                    comment: "yeyah"
-                }
-            ]
+            comments: [],
+            newcomment: {
+                username: "",
+                comment: ""
+            }
         },
         methods: {
             upload: function(e) {
@@ -39,7 +34,7 @@
                 axios
                     .post("/upload", formData)
                     .then(function(resp) {
-                        console.log(resp);
+                        console.log("resp data", resp.data);
                     })
                     .catch(function(err) {
                         console.log(err);
@@ -49,37 +44,69 @@
                 this.form.file = e.target.files[0];
             },
             show: function(id) {
+                this.modal.id = id;
                 var index = null;
                 for (var i = 0; i < this.items.length; i++) {
                     if (this.items[i].id == id) {
                         index = i;
-                        console.log(index);
                         break;
                     }
                 }
                 this.modal.index = index;
                 this.modal.url = this.items[index].url;
                 this.modal.show = true;
-                console.log(this.modal.url);
             },
-            hide: function(e) {
-                console.log(e); //currently returning undefined
+            hide: function() {
                 this.modal.show = false;
                 this.modal.id = null;
+                this.modal.id = null;
             },
-            getComments: function(id) {
+            switch: function(arg) {
+                if (arg == 1) {
+                    console.log("right");
+                } else if (arg == -1) {
+                    //TODO:
+                    //if this.items[0] == undefined go to last
+                    // or maybe if it tries to set the index to -1 handle in the same way
+                    console.log("left");
+                }
+            },
+            showstate: function() {
+                console.log(this.form);
+                console.log(this.newcomment.comment);
+            },
+            insertcomment: function(e, username, comment) {
+                this.newcomment.username = username;
+                this.newcomment.comment = comment;
+                var formData = new FormData();
+                formData.append("id", this.modal.id);
+                formData.append("comment", this.newcomment.comment);
+                formData.append("username", this.newcomment.username);
                 axios
-                    .get("/get-comments", id)
-                    .then(function(data) {
-                        console.log(id);
-                        console.log(data);
+                    .post("/insert-comment", formData)
+                    .then(function(resp) {
+                        console.log(resp);
+                    })
+                    .catch(function(err) {
+                        console.log(err);
+                    });
+            },
+            getcomments: function(id) {
+                var form = new FormData();
+                form.append("id", id);
+                axios
+                    .get("/get-comments", form)
+                    .then(function(resp) {
+                        console.log(resp);
                     })
                     .catch(function(err) {
                         console.log(err);
                     });
             }
         },
-        mounted: function() {},
+        mounted: function() {
+            console.log(this.newcomment);
+        },
         created: function() {
             var self = this;
             axios
@@ -95,9 +122,6 @@
 
     Vue.component("img-wrap", {
         props: ["title", "description", "url", "username", "id", "timestamp"],
-        data: function() {
-            return {};
-        },
         methods: {
             openmodal: function() {
                 this.$emit("openmodal", this.id);
@@ -107,17 +131,24 @@
     });
 
     Vue.component("modal-wrap", {
-        props: ["id", "comments", "url"],
-        data: function() {
-            return {};
-        },
+        props: ["id", "url", "title", "username", "description", "timestamp"],
         methods: {
             closemodal: function(e) {
-                console.log(this.comments);
-                e.stopPropagation();
-                this.$emit("closemodal");
+                this.$emit("closemodal", e);
+            },
+            loginput: function(e) {
+                // console.log(e.target.name);
+                // console.log(e.target.value);
+                this.$emit("input", e.target.name, e.target.value);
+            },
+            insertcomment: function(e, username, comment) {
+                this.$emit("insertcomment", e, username, comment);
             }
         },
+        // mounted: function() {
+        //     console.log("i'm here and happening");
+        //     this.$emit("modalmount");
+        // },
         template: "#modal-wrap"
     });
 })();
