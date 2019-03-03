@@ -16,11 +16,7 @@
                 index: null,
                 show: false
             },
-            comments: [],
-            comment: {
-                username: "",
-                comment: ""
-            }
+            comments: []
         },
         methods: {
             upload: function(e) {
@@ -75,18 +71,14 @@
                 console.log(this.form);
                 console.log(this.newcomment.comment);
             },
-            insertcomment: function(e, username, comment) {
-                this.comment.username = username;
-                this.comment.comment = comment;
+            insertcomment: function(form) {
+                console.log("hello from the instance");
+                console.log(form);
                 var formData = new FormData();
                 formData.append("id", this.modal.id);
                 formData.append("comment", this.comment.comment);
                 formData.append("username", this.comment.username);
-                console.log(
-                    this.modal.id,
-                    this.comment.comment,
-                    this.comment.username
-                );
+
                 axios
                     .post("/insert-comment", formData)
                     .then(function(resp) {
@@ -108,10 +100,6 @@
                         console.log(err);
                     });
             }
-        },
-        mounted: function() {
-            console.log(this.comment.comment);
-            console.log(this.comment.username);
         },
         created: function() {
             var self = this;
@@ -144,9 +132,7 @@
             "username",
             "description",
             "timestamp",
-            "comments",
-            "newcomment",
-            "commenter"
+            "comments"
         ],
         methods: {
             closemodal: function(e) {
@@ -157,8 +143,11 @@
                 // console.log(e.target.value);
                 this.$emit("input", e.target.name, e.target.value);
             },
-            insertcomment: function(e, username, comment) {
-                this.$emit("insertcomment", e, username, comment);
+            insertcomment: function(e) {
+                console.log(e.target[0].value);
+                console.log(e.target[1].value);
+
+                this.$emit("insertcomment", e.target);
             }
         },
         // mounted: function() {
