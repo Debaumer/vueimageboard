@@ -68,36 +68,40 @@
                 }
             },
             showstate: function() {
-                console.log(this.form);
-                console.log(this.newcomment.comment);
+                console.log(this.comments);
+                console.log(this.items);
             },
             insertcomment: function(form) {
-                console.log("hello from the instance");
-                console.log(form);
-                var formData = new FormData();
-                formData.append("id", this.modal.id);
-                formData.append("comment", this.comment.comment);
-                formData.append("username", this.comment.username);
-
+                console.log(this.comments);
                 axios
-                    .post("/insert-comment", formData)
+                    .post("/insert-comment", {
+                        id: form.id.value,
+                        comment: form.comment.value,
+                        username: form.username.value
+                    })
                     .then(function(resp) {
                         console.log(resp);
                     })
                     .catch(function(err) {
                         console.log(err);
                     });
+                this.$emit("getcomments");
             },
             getcomments: function(id) {
-                var form = new FormData();
-                form.append("id", id);
+                var self = this;
                 axios
-                    .get("/get-comments", form)
+                    .post("/get-comments", { id: id })
                     .then(function(resp) {
-                        console.log(resp);
+                        self.comments = resp.data.rows.map(function(item) {
+                            return {
+                                username: item.username,
+                                comment: item.comment
+                            };
+                        });
+                        console.log(self.comments);
                     })
                     .catch(function(err) {
-                        console.log(err);
+                        console.log("ERROR", err);
                     });
             }
         },
@@ -139,16 +143,15 @@
                 this.$emit("closemodal", e);
             },
             loginput: function(e) {
-                // console.log(e.target.name);
-                // console.log(e.target.value);
-                this.$emit("input", e.target.name, e.target.value);
+                console.log(e);
+                console.log(this.comments);
             },
             insertcomment: function(e) {
-                console.log(e.target[0].value);
-                console.log(e.target[1].value);
-
                 this.$emit("insertcomment", e.target);
             }
+        },
+        mounted: function() {
+            this.$emit("modalmount", this.id);
         },
         // mounted: function() {
         //     console.log("i'm here and happening");

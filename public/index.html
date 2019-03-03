@@ -7,20 +7,21 @@
         <meta charset="utf-8">
         <title>J board</title>
     </head>
-    <div id="app">
+    <div id="app" v-on:getcomments="getcomments">
      <h1>{{heading}}</h1>
      <button v-on:click="showstate">showstate</button>
          <modal-wrap
          v-if="modal.show == true"
          v-bind:id="modal.id"
          v-on:closemodal="hide"
+         v-on:modalmount="getcomments"
 
          v-bind:url="items[modal.index].url"
          v-bind:title="items[modal.index].title"
          v-bind:username="items[modal.index].username"
          v-bind:description="items[modal.index].description"
          v-bind:timestamp="items[modal.index]['created_at']"
-         v-model:comments="comments"
+         v-bind:comments="comments"
 
          v-on:insertcomment="insertcomment"
          v-on:modalmount="getcomments">
@@ -77,9 +78,9 @@
                 <form method="post" id="flexCol" v-on:submit.prevent="insertcomment($event, form)">
                     <label for="username">Username:</label>
                     <input name="username">
-                    <label for="comment" >Comment:</label>
+                    <label for="comment" v-on:mouseover="loginput" >Comment:</label>
                     <textarea id="comment" name="comment"></textarea>
-                    <input type="hidden" v-bind:name="id">
+                    <input type="hidden" name="id" v-bind:value="id">
                     <input type="submit" value="post comment">
                 </form>
                 <h1>Comments</h1>

@@ -70,11 +70,12 @@ app.post("/insert-comment", function(req, res) {
     res.end();
 });
 
-app.get("/get-comments", function(req, res) {
+app.post("/get-comments", function(req, res) {
+    console.log("reqbodyId", req.body.id);
     db.getComments(req.body.id)
         .then(data => {
-            console.log(data.rows);
-            res.json();
+            console.log(data);
+            res.json(data);
         })
         .catch(err => {
             console.log(err);
