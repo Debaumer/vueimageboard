@@ -59,15 +59,13 @@ app.post("/upload", uploader.single("file"), s3.upload, function(req, res) {
 });
 
 app.post("/insert-comment", function(req, res) {
-    console.log("req.body", req.body);
     db.insertComment(req.body.username, req.body.comment, req.body.id)
         .then(data => {
-            console.log("data rows", data.rows);
+            res.json(data);
         })
         .catch(err => {
             console.log(err);
         });
-    res.end();
 });
 
 app.post("/get-comments", function(req, res) {

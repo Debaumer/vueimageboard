@@ -12,7 +12,6 @@
     <div id="app">
 
      <h1>{{heading}}</h1>
-     <button v-on:click="showstate">showstate</button>
 
     <modal-wrap
          v-if="modal.show == true"
@@ -85,7 +84,7 @@
                 <h4>Posted by {{username}} at {{timestamp}}</h4>
                 <p>{{description}}</p>
                 <img id="blockImage" v-bind:alt="title" v-bind:src="url">
-                <form autocomplete="off" method="post" id="flexCol" v-on:submit.prevent="insertcomment($event, form)">
+                <form autocomplete="off" method="post" id="flexCol" v-on:submit.prevent="insertcomment($event)">
                     <label for="username">Username:</label>
                     <input name="username">
                     <label for="comment" v-on:mouseover="loginput" >Comment:</label>

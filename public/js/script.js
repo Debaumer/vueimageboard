@@ -27,6 +27,7 @@
         methods: {
             upload: function(e) {
                 e.preventDefault();
+                var self = this;
                 var formData = new FormData();
                 formData.append("file", this.form.file);
                 formData.append("title", this.form.title);
@@ -37,6 +38,7 @@
                     .post("/upload", formData)
                     .then(function(resp) {
                         console.log("resp data", resp.data);
+                        self.items.unshift(resp.data[0]);
                     })
                     .catch(function(err) {
                         console.log(err);
@@ -76,8 +78,10 @@
             showstate: function() {
                 console.log(this.comments);
                 console.log(this.items);
+                console.log(this.lastItemId);
             },
             insertcomment: function(form) {
+                var self = this;
                 console.log(this.comments);
                 axios
                     .post("/insert-comment", {
@@ -86,7 +90,11 @@
                         username: form.username.value
                     })
                     .then(function(resp) {
+                        console.log("RESP INSERT COMMENT");
+                        console.log(resp.data);
                         console.log(resp);
+                        self.comments.push(resp.data.rows[0]);
+                        //this.comments.unshift();
                     })
                     .catch(function(err) {
                         console.log(err);
