@@ -85,7 +85,7 @@ app.post("/get-comments", function(req, res) {
 app.get("/get-count", (req, res) => {
     db.getTotalImg(req.body.id)
         .then(data => {
-            console.log(data);
+            console.log(data.rows[0].count);
             res.json(data);
         })
         .catch(err => {
@@ -97,6 +97,18 @@ app.get("/imgpath", (req, res) => {
     db.getAll()
         .then(data => {
             res.json(data.rows);
+        })
+        .catch(err => {
+            console.log(err);
+        });
+});
+
+app.post("/load-more", (req, res) => {
+    console.log("reqbody", req.body.id);
+
+    db.getMore(req.body.id)
+        .then(data => {
+            res.json(data);
         })
         .catch(err => {
             console.log(err);

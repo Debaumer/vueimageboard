@@ -1,16 +1,20 @@
 <!doctype html>
 <html>
 <body>
+
     <head>
         <link rel="stylesheet" href="/css/master.css">
         <link rel="stylesheet" href="/css/modal.css">
         <meta charset="utf-8">
         <title>J board</title>
     </head>
+
     <div id="app" v-on:getcomments="getcomments">
+
      <h1>{{heading}}</h1>
      <button v-on:click="showstate">showstate</button>
-         <modal-wrap
+
+    <modal-wrap
          v-if="modal.show == true"
          v-bind:id="modal.id"
          v-on:closemodal="hide"
@@ -46,6 +50,7 @@
         <div class="card" v-for="item in items">
             <h1>{{item["created_at"]}}</h1>
             <img-wrap
+            v-on:imagewrapload="setlast"
             v-on:openmodal="show($event)"
             v-bind:id="item.id"
             v-bind:title="item.title"
@@ -55,8 +60,14 @@
             >
             </img-wrap>
         </div>
+
     </section>
-</div>
+
+    <footer v-if="moreconfig.show == true">
+        <button v-on:click="loadmore" id="morebutton">More . . .</button>
+    </footer>
+
+    </div>
 
 <script id="img-wrap" type="text/x-template">
     <div>

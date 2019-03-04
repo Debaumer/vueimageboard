@@ -11,12 +11,17 @@
                 file: null
             },
             items: [],
+            lastItemId: null,
             modal: {
                 id: null,
                 index: null,
                 show: false
             },
-            comments: []
+            comments: [],
+            moreconfig: {
+                show: true,
+                total: null
+            }
         },
         methods: {
             upload: function(e) {
@@ -103,6 +108,32 @@
                     .catch(function(err) {
                         console.log("ERROR", err);
                     });
+            },
+            setlast: function(id) {
+                this.lastItemId = id;
+            },
+            loadmore: function(e) {
+                var self = this;
+                e.preventDefault();
+                axios
+                    .post("/load-more", { id: self.lastItemId })
+                    .then(function(resp) {
+                        console.log(resp.data.rows);
+                        for (var i = 0; i < resp.data.rows.length; i++) {
+                            self.items.push(resp.data.rows[i]);
+                        }
+                        var last = self.items.slice(-1);
+                        self.lastItemId = last[0].id;
+                        console.log("selfitemslength", self.items.length);
+                        console.log("moreconfigtotal", self.moreconfig.total);
+                        if (self.items.length >= self.moreconfig.total) {
+                            console.log("it is done");
+                            self.moreconfig.show = false;
+                        }
+                    })
+                    .catch(function(err) {
+                        console.log(err);
+                    });
             }
         },
         created: function() {
@@ -115,15 +146,30 @@
                 .catch(function(err) {
                     console.log("ERROR", err);
                 });
+
+            axios
+                .get("/get-count")
+                .then(function(resp) {
+                    console.log("GET COUNT");
+                    console.log(resp.data.rows[0].count);
+                    self.moreconfig.total = resp.data.rows[0].count;
+                })
+                .catch(function(err) {
+                    console.log("error", err);
+                });
         }
     });
 
     Vue.component("img-wrap", {
         props: ["title", "description", "url", "username", "id", "timestamp"],
         methods: {
-            openmodal: function() {
-                this.$emit("openmodal", this.id);
+            openmodal: function(e) {
+                this.$emit("openmodal", e, this.id);
             }
+        },
+        mounted: function() {
+            this.$emit("imagewrapload", this.id);
+            //this.$emit(); //what did I want to emit here?
         },
         template: `#img-wrap`
     });
@@ -153,10 +199,6 @@
         mounted: function() {
             this.$emit("modalmount", this.id);
         },
-        // mounted: function() {
-        //     console.log("i'm here and happening");
-        //     this.$emit("modalmount");
-        // },
         template: "#modal-wrap"
     });
 })();

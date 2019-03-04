@@ -6,8 +6,14 @@ const db = spicedPg(
 );
 
 module.exports.getAll = function() {
-    const qs = "SELECT * FROM images LIMIT 20";
+    const qs = "SELECT * FROM images LIMIT 5";
     return db.query(qs);
+};
+
+module.exports.getMore = function loadMore(id) {
+    return db.query(`SELECT * FROM images WHERE id > $1 ORDER BY id LIMIT 5`, [
+        id
+    ]);
 };
 
 module.exports.getTotalImg = function getTotal() {

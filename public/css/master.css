@@ -6,6 +6,17 @@ body {
 }
 
 #app {
+    background-color: #00000e24;
+    margin: auto;
+}
+
+footer {
+    padding-top: 25px;
+    padding-bottom: 25px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 20px;
 }
 
 #title {
@@ -32,6 +43,14 @@ body {
     background-color: #10000e22;
 }
 
+#morebutton {
+    background-color: #01e;
+    width: 100px;
+    height: 50px;
+    border-radius: 20px;
+    border: none;
+}
+
 #uploadForm {
     display: flex;
     flex-direction: column;
@@ -52,6 +71,7 @@ input {
     border-radius: 5px;
     box-shadow: 10px 2px rgba(0, 0, 0, 0.1);
     border: 1px solid black;
+    margin-bottom: 20px;
     /* background-color: rgba(); */
 }
 
