@@ -47,7 +47,6 @@
 
     <section id="board" v-if="items.length > 0">
         <div class="card" v-for="item in items">
-            <h1>{{item["created_at"]}}</h1>
             <img-wrap
             v-on:imagewrapload="setlast"
             v-on:openmodal="show($event)"

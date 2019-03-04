@@ -147,6 +147,8 @@
         },
         created: function() {
             var self = this;
+            console.log(window);
+            window.addEventListener();
             axios
                 .get("/imgpath")
                 .then(function(resp) {
