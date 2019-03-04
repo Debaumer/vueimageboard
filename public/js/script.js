@@ -12,6 +12,7 @@
             },
             items: [],
             lastItemId: null,
+            hash: null,
             modal: {
                 id: null,
                 index: null,
@@ -164,7 +165,7 @@
         props: ["title", "description", "url", "username", "id", "timestamp"],
         methods: {
             openmodal: function(e) {
-                this.$emit("openmodal", e, this.id);
+                this.$emit("openmodal", this.id);
             }
         },
         mounted: function() {

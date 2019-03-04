@@ -42,4 +42,12 @@
 }
 
 .commentCard {
+    float: left;
+    background-color: white;
+    width: 80vw;
+    padding: 20px;
+    border-radius: 20px;
+    text-align: left;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
