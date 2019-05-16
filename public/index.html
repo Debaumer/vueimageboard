@@ -68,10 +68,11 @@
 
 <script id="img-wrap" type="text/x-template">
     <div>
-        <h1>{{title}}</h1>
-        <p>{{description}}</p>
-        <h4>Posted by: {{username}}</h4>
+        <h1 class="title">{{title}}</h1>
+        <p class="description">{{description}}</p>
+        <p class="postedBy">Posted by: <a class="username">{{username}}</a></p>
         <img v-on:click="openmodal" class="cardImg" v-bind:src="url">
+        <h1>Comments: TBA</h1>
     </div>
 </script>
 

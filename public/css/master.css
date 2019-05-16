@@ -10,6 +10,39 @@ body {
     margin: auto;
 }
 
+.title {
+    text-align: center;
+    min-width: 200px;
+    background-color: rgba(0, 0, 0, 0.2);
+    color: white;
+    border-radius: 16px;
+    margin: 0;
+}
+
+.description {
+    font-style: italic;
+    text-align: center;
+    margin: 0;
+    min-width: 200px;
+    background-color: rgba(0, 0, 0, 0.2);
+    color: white;
+    border-radius: 16px;
+}
+
+.postedBy {
+    min-width: 200px;
+    background-color: rgba(0, 0, 0, 0.2);
+    color: white;
+    border-radius: 16px;
+}
+
+.username {
+    color: black;
+    width: 500px;
+    background-color: white;
+    border-radius: 16px;
+}
+
 footer {
     padding-top: 25px;
     padding-bottom: 25px;
