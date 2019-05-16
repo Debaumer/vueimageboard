@@ -147,12 +147,11 @@
         },
         created: function() {
             var self = this;
-            console.log(window);
-            window.addEventListener();
             axios
                 .get("/imgpath")
                 .then(function(resp) {
                     self.items = resp.data;
+                    console.log(resp.data);
                 })
                 .catch(function(err) {
                     console.log("ERROR", err);

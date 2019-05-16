@@ -30,13 +30,14 @@ var uploader = multer({
 });
 
 app.use(express.static("./public"));
+console.log(__dirname + "./_defaultpic.png");
 
 app.use(bodyparser.urlencoded({ extended: false }));
 app.use(bodyparser.json());
 
 app.post("/upload", uploader.single("file"), s3.upload, function(req, res) {
     // If nothing went wrong the file is already in the uploads directory
-
+    console.log("hello");
     if (req.file) {
         var url = s3Url.s3Url + req.file.filename;
 

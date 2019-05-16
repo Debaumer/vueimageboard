@@ -78,7 +78,7 @@
 <script id="modal-wrap" type="text/x-template">
         <div id="modal" v-on:click.self.prevent="closemodal($event)">
             <div id="block">
-                <h1 v-on:click.stop="closemodal($event)">X</h1>
+                <h1 class="closeButton" v-on:click.stop="closemodal($event)">X</h1>
                 <h1>{{title}}</h1>
                 <h4>Posted by {{username}} at {{timestamp}}</h4>
                 <p>{{description}}</p>

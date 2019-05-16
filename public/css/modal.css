@@ -41,6 +41,20 @@
     max-height: 150px;
 }
 
+.closeButton {
+    position: absolute;
+    right: 50px;
+    cursor: pointer;
+    background-color: white;
+    color: red;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 20px;
+}
+
+.closemodal {
+}
+
 .commentCard {
     float: left;
     background-color: white;
