@@ -11,7 +11,7 @@
 
     <div id="app">
 
-     <h1>{{heading}}</h1>
+     <h1 class="title">/{{heading}}/</h1>
 
     <modal-wrap
          v-if="modal.show == true"
@@ -42,7 +42,7 @@
           <label for="image">Image upload</label>
           <input name="image" type="file" accepts="image/*" @change="getImg">
 
-          <button @click="upload">upload image</button>
+          <button id="uploadButton" @click="upload">upload image</button>
       </form>
 
     <section id="board" v-if="items.length > 0">
@@ -80,7 +80,7 @@
         <div id="modal" v-on:click.self.prevent="closemodal($event)">
             <div id="block">
                 <h1 class="closeButton" v-on:click.stop="closemodal($event)">X</h1>
-                <h1>{{title}}</h1>
+                <h1 class="title">{{title}}</h1>
                 <h4>Posted by {{username}} at {{timestamp}}</h4>
                 <p>{{description}}</p>
                 <img id="blockImage" v-bind:alt="title" v-bind:src="url">

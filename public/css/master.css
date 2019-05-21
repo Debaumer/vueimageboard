@@ -1,13 +1,20 @@
 body {
     font-family: sans-serif;
-    background-color: #00000011;
+    background-color: #600497;
     margin: 0;
     height: auto;
 }
 
 #app {
-    background-color: #00000e24;
-    margin: auto;
+    background-color: #600497;
+    color: white;
+}
+
+.title {
+    margin: 0 auto;
+    text-align: center;
+    background-color: #4e037a;
+    width: 100%;
 }
 
 .title {
@@ -85,26 +92,47 @@ footer {
 }
 
 #uploadForm {
+    position: relative;
+    margin: 0 auto;
+    background-color: #8b23c9;
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
     height: 300px;
-    width: 200px;
+    width: 75%;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: black 5px 5px;
 }
 
-input {
+#uploadForm input {
+    border-radius: 25px;
     margin: 10px;
 }
 
+#uploadButton {
+    border-radius: 30px;
+    height: 50px;
+    width: 25%;
+    align-self: center;
+    font-style: oblique;
+    background-color: #9658ba;
+    border: 1px solid black;
+}
+
+#uploadButton:hover {
+    background-color: #e1e000;
+    color: black;
+}
+
 .card {
+    background-color: #3f0a5f;
     margin-top: 20px;
     position: relative;
     height: auto;
-    width: 300px;
+    width: 88%;
     border-radius: 5px;
     box-shadow: 10px 2px rgba(0, 0, 0, 0.1);
     border: 1px solid black;
-    margin-bottom: 20px;
     /* background-color: rgba(); */
 }
 
