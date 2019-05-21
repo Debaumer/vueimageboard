@@ -55,6 +55,8 @@
             v-bind:username="item.username"
             v-bind:description="item.description"
             v-bind:url="item.url"
+            v-bind:timestamp="item.timestamp"
+            v-bind:created_at="item.created_at"
             >
             </img-wrap>
         </div>
@@ -67,16 +69,18 @@
     </div>
 
 <script id="img-wrap" type="text/x-template">
+    <!--This is the item that appears in #board-->
     <div>
         <h1 class="title">{{title}}</h1>
         <p class="description">{{description}}</p>
-        <p class="postedBy">Posted by: <a class="username">{{username}}</a></p>
+        <p class="postedBy">Posted by: <a class="username">{{username}}</a><br><em>at:  {{created_at}}</em></p>
         <img v-on:click="openmodal" class="cardImg" v-bind:src="url">
         <h1>Comments: TBA</h1>
     </div>
 </script>
 
 <script id="modal-wrap" type="text/x-template">
+    <!--this is the modal card-->
         <div id="modal" v-on:click.self.prevent="closemodal($event)">
             <div id="block">
                 <h1 class="closeButton" v-on:click.stop="closemodal($event)">X</h1>

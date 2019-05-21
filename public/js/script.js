@@ -136,7 +136,6 @@
                         console.log("selfitemslength", self.items.length);
                         console.log("moreconfigtotal", self.moreconfig.total);
                         if (self.items.length >= self.moreconfig.total) {
-                            console.log("it is done");
                             self.moreconfig.show = false;
                         }
                     })
@@ -151,7 +150,6 @@
                 .get("/imgpath")
                 .then(function(resp) {
                     self.items = resp.data;
-                    console.log(resp.data);
                 })
                 .catch(function(err) {
                     console.log("ERROR", err);
@@ -160,8 +158,6 @@
             axios
                 .get("/get-count")
                 .then(function(resp) {
-                    console.log("GET COUNT");
-                    console.log(resp.data.rows[0].count);
                     self.moreconfig.total = resp.data.rows[0].count;
                 })
                 .catch(function(err) {
@@ -171,7 +167,15 @@
     });
 
     Vue.component("img-wrap", {
-        props: ["title", "description", "url", "username", "id", "timestamp"],
+        props: [
+            "title",
+            "description",
+            "url",
+            "username",
+            "id",
+            "timestamp",
+            "created_at"
+        ],
         methods: {
             openmodal: function(e) {
                 this.$emit("openmodal", this.id);
@@ -179,7 +183,6 @@
         },
         mounted: function() {
             this.$emit("imagewrapload", this.id);
-            //this.$emit(); //what did I want to emit here?
         },
         template: `#img-wrap`
     });

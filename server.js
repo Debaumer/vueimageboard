@@ -30,14 +30,12 @@ var uploader = multer({
 });
 
 app.use(express.static("./public"));
-console.log(__dirname + "./_defaultpic.png");
 
 app.use(bodyparser.urlencoded({ extended: false }));
 app.use(bodyparser.json());
 
 app.post("/upload", uploader.single("file"), s3.upload, function(req, res) {
     // If nothing went wrong the file is already in the uploads directory
-    console.log("hello");
     if (req.file) {
         var url = s3Url.s3Url + req.file.filename;
 
@@ -47,10 +45,7 @@ app.post("/upload", uploader.single("file"), s3.upload, function(req, res) {
             req.body.title,
             req.body.description
         ).then(data => {
-            //console.log("DATA: ", data);
-            // INSERT title, description, username the full s3 url and the filename
             res.json(data.rows);
-            //console log data, see if stuff is there, and once it looks good, chain a then response to axios
         });
     } else {
         res.json({
@@ -70,10 +65,8 @@ app.post("/insert-comment", function(req, res) {
 });
 
 app.post("/get-comments", function(req, res) {
-    console.log("reqbodyId", req.body.id);
     db.getComments(req.body.id)
         .then(data => {
-            console.log(data);
             res.json(data);
         })
         .catch(err => {
@@ -84,7 +77,6 @@ app.post("/get-comments", function(req, res) {
 app.get("/get-count", (req, res) => {
     db.getTotalImg(req.body.id)
         .then(data => {
-            console.log(data.rows[0].count);
             res.json(data);
         })
         .catch(err => {
@@ -95,6 +87,7 @@ app.get("/get-count", (req, res) => {
 app.get("/imgpath", (req, res) => {
     db.getAll()
         .then(data => {
+            console.log(data.rows[0]);
             res.json(data.rows);
         })
         .catch(err => {
@@ -103,8 +96,6 @@ app.get("/imgpath", (req, res) => {
 });
 
 app.post("/load-more", (req, res) => {
-    console.log("reqbody", req.body.id);
-
     db.getMore(req.body.id)
         .then(data => {
             res.json(data);
