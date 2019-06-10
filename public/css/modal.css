@@ -57,6 +57,7 @@
 
 .commentCard {
     float: left;
+    color: black;
     background-color: white;
     width: 80vw;
     padding: 20px;

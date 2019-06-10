@@ -29,6 +29,7 @@
          v-on:insertcomment="insertcomment"
          v-on:modalmount="getcomments">
      </modal-wrap>
+
       <form autocomplete="off" id="uploadForm" method="POST">
           <label for="title">Title</label>
             <input type="text" v-model="form.title">
@@ -50,6 +51,7 @@
             <img-wrap
             v-on:imagewrapload="setlast"
             v-on:openmodal="show($event)"
+            v-on:getrecentcomments="getrecentcomments"
             v-bind:id="item.id"
             v-bind:title="item.title"
             v-bind:username="item.username"
@@ -65,17 +67,27 @@
     <footer v-if="moreconfig.show == true">
         <button v-on:click="loadmore" id="morebutton">More . . .</button>
     </footer>
-
     </div>
 
 <script id="img-wrap" type="text/x-template">
-    <!--This is the item that appears in #board-->
+    <!-- This is the item that appears in #board -->
     <div>
         <h1 class="title">{{title}}</h1>
         <p class="description">{{description}}</p>
-        <p class="postedBy">Posted by: <a class="username">{{username}}</a><br><em>at:  {{created_at}}</em></p>
+        <div class="postedBy">
+            <p>
+            Posted by: <a class="username">{{username}}</a>
+        </p>
+            <em>at:  {{created_at}}</em>
+        </div>
         <img v-on:click="openmodal" class="cardImg" v-bind:src="url">
-        <h1>Comments: TBA</h1>
+        <h1>Comments</h1>
+        <section class="comments" v-for="item in recentcomments">
+            <div class="commentCard">
+                <h1>{{item.username}}</h1>
+                <p>{{item.comment}}</p>
+            </div>
+        </section>
     </div>
 </script>
 

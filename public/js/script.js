@@ -1,9 +1,8 @@
-//title and header
 (function() {
     new Vue({
         el: "#app",
         data: {
-            heading: "J board",
+            heading: "image-board",
             form: {
                 title: "",
                 username: "",
@@ -12,19 +11,24 @@
             },
             items: [],
             lastItemId: null,
-            hash: null,
+            hash: "#",
             modal: {
                 id: null,
                 index: null,
                 show: false
             },
+            currentImage: location.hash.slice(1) || 0, //set property afterwards to
             comments: [],
+            recentcomments: [],
             moreconfig: {
                 show: true,
                 total: null
             }
         },
         methods: {
+            logger: function(e) {
+                console.log(e);
+            },
             upload: function(e) {
                 e.preventDefault();
                 var self = this;
@@ -33,11 +37,9 @@
                 formData.append("title", this.form.title);
                 formData.append("description", this.form.description);
                 formData.append("username", this.form.username);
-                //console.log(formData); this is always empty, but append does work
                 axios
                     .post("/upload", formData)
                     .then(function(resp) {
-                        console.log("resp data", resp.data);
                         self.items.unshift(resp.data[0]);
                     })
                     .catch(function(err) {
@@ -49,6 +51,9 @@
             },
             show: function(id) {
                 this.modal.id = id;
+                location.hash = id;
+                this.currentImage = id;
+                console.log("currentImage", this.currentImage);
                 var index = null;
                 for (var i = 0; i < this.items.length; i++) {
                     if (this.items[i].id == id) {
@@ -61,7 +66,9 @@
                 this.modal.show = true;
             },
             hide: function() {
+                this.currentImage = null;
                 this.modal.show = false;
+                location.hash = "";
                 this.modal.id = null;
                 this.modal.id = null;
             },
@@ -75,14 +82,9 @@
                     console.log("left");
                 }
             },
-            showstate: function() {
-                console.log(this.comments);
-                console.log(this.items);
-                console.log(this.lastItemId);
-            },
             insertcomment: function(form) {
                 var self = this;
-                console.log(this.comments);
+
                 axios
                     .post("/insert-comment", {
                         id: form.id.value,
@@ -90,11 +92,7 @@
                         username: form.username.value
                     })
                     .then(function(resp) {
-                        console.log("RESP INSERT COMMENT");
-                        console.log(resp.data);
-                        console.log(resp);
                         self.comments.push(resp.data.rows[0]);
-                        //this.comments.unshift();
                     })
                     .catch(function(err) {
                         console.log(err);
@@ -103,16 +101,18 @@
             },
             getcomments: function(id) {
                 var self = this;
+
                 axios
                     .post("/get-comments", { id: id })
                     .then(function(resp) {
+                        //console.log(resp.data.rows);
                         self.comments = resp.data.rows.map(function(item) {
                             return {
                                 username: item.username,
                                 comment: item.comment
                             };
                         });
-                        console.log(self.comments);
+                        //console.log(self.comments);
                     })
                     .catch(function(err) {
                         console.log("ERROR", err);
@@ -127,14 +127,12 @@
                 axios
                     .post("/load-more", { id: self.lastItemId })
                     .then(function(resp) {
-                        console.log(resp.data.rows);
+                        //console.log(resp.data.rows);
                         for (var i = 0; i < resp.data.rows.length; i++) {
                             self.items.push(resp.data.rows[i]);
                         }
                         var last = self.items.slice(-1);
                         self.lastItemId = last[0].id;
-                        console.log("selfitemslength", self.items.length);
-                        console.log("moreconfigtotal", self.moreconfig.total);
                         if (self.items.length >= self.moreconfig.total) {
                             self.moreconfig.show = false;
                         }
@@ -142,14 +140,65 @@
                     .catch(function(err) {
                         console.log(err);
                     });
+            },
+            getrecentcomments: function(id) {
+                var self = this;
+
+                axios
+                    .post("/recent-comments", { id: id })
+                    .then(function(resp) {
+                        self.recentcomments = resp.data.rows.map(function(
+                            item
+                        ) {
+                            return {
+                                id: item.id,
+                                username: item.username,
+                                comment: item.comment
+                            };
+                        });
+                    })
+                    .catch(function(err) {
+                        console.log("ERROR", err);
+                    });
             }
         },
         created: function() {
             var self = this;
+            window.addEventListener("hashchange", function(e) {
+                if (!location.hash.length) {
+                    return;
+                }
+                var image = e.newURL.slice(23);
+
+                axios
+                    .post("/getImage", { image })
+                    .then(function(resp) {
+                        //console.log(resp.data);
+                        self.currentImage = image;
+                        self.modal.id = image;
+                        //console.log(self.items);
+                        self.modal.show = true;
+                        console.log(self.items[1].id);
+                        console.log(resp.data);
+                        self.modal.url = resp.data.url;
+                        console.log(self.modal.url);
+                    })
+                    .catch(function(err) {
+                        console.log(err);
+                    });
+            });
+
             axios
                 .get("/imgpath")
                 .then(function(resp) {
-                    self.items = resp.data;
+                    var data = resp.data;
+                    for (var i = 0; i < resp.data.length; i++) {
+                        data[i].created_at =
+                            resp.data[i].created_at.slice(11, 19) +
+                            " - " +
+                            resp.data[i].created_at.slice(0, 10);
+                    }
+                    self.items = data;
                 })
                 .catch(function(err) {
                     console.log("ERROR", err);
@@ -173,8 +222,8 @@
             "url",
             "username",
             "id",
-            "timestamp",
-            "created_at"
+            "created_at",
+            "recentcomments"
         ],
         methods: {
             openmodal: function(e) {
@@ -183,6 +232,7 @@
         },
         mounted: function() {
             this.$emit("imagewrapload", this.id);
+            this.$emit("getrecentcomments", this.id);
         },
         template: `#img-wrap`
     });
@@ -203,7 +253,7 @@
             },
             loginput: function(e) {
                 console.log(e);
-                console.log(this.comments);
+                //console.log(this.comments);
             },
             insertcomment: function(e) {
                 this.$emit("insertcomment", e.target);

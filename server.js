@@ -74,6 +74,28 @@ app.post("/get-comments", function(req, res) {
         });
 });
 
+app.post("/recent-comments", function(req, res) {
+    db.getRecentComments(req.body.id)
+        .then(data => {
+            res.json(data);
+        })
+        .catch(err => {
+            console.log(err);
+        });
+});
+
+app.post("/getImage", (req, res) => {
+    console.log(req.body.image);
+    db.getImage(req.body.image)
+        .then(data => {
+            console.log(data.rows[0]);
+            res.json(data.rows[0]);
+        })
+        .catch(err => {
+            console.log(err);
+        });
+});
+
 app.get("/get-count", (req, res) => {
     db.getTotalImg(req.body.id)
         .then(data => {
@@ -87,7 +109,6 @@ app.get("/get-count", (req, res) => {
 app.get("/imgpath", (req, res) => {
     db.getAll()
         .then(data => {
-            console.log(data.rows[0]);
             res.json(data.rows);
         })
         .catch(err => {
@@ -95,14 +116,38 @@ app.get("/imgpath", (req, res) => {
         });
 });
 
+app.get("/get-img-hash/:id", (req, res) => {
+    let id = req.params.id;
+
+    db.getImageId(id)
+        .then(data => {
+            res.json(data.rows);
+            console.log("IMG-DATA", data);
+        })
+        .catch(err => {
+            console.log("ERROR in GET /images/:id", err);
+        });
+});
+
 app.post("/load-more", (req, res) => {
     db.getMore(req.body.id)
         .then(data => {
+            for (var i = 0; i < data.rows.length; i++) {
+                console.log("created at", data.rows[i]["created_at"]);
+            }
             res.json(data);
         })
         .catch(err => {
             console.log(err);
         });
+
+    // db.getRecentComments(req.body.id)
+    //     .then(data => {
+    //         console.log("recent comments", data.rows);
+    //     })
+    //     .catch(err => {
+    //         console.log(err);
+    //     });
 });
 
 app.listen(process.env.PORT || 8080, () => console.log("SERVER ONLINE"));
