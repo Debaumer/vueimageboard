@@ -12,12 +12,14 @@
     <div id="app">
 
      <h1 class="title">/{{heading}}/</h1>
-
     <modal-wrap
          v-if="modal.show == true"
          v-bind:id="modal.id"
          v-on:closemodal="hide"
          v-on:modalmount="getcomments"
+         v-on:nextimage="nextimage"
+         v-on:previousimage="previousimage"
+         v-on:getcomments="getcomments"
 
          v-bind:url="items[modal.index].url"
          v-bind:title="items[modal.index].title"
@@ -78,7 +80,7 @@
             <p>
             Posted by: <a class="username">{{username}}</a>
         </p>
-            <em>at:  {{created_at}}</em>
+            <em>at: {{created_at}}</em>
         </div>
         <img v-on:click="openmodal" class="cardImg" v-bind:src="url">
         <h1>Comments</h1>
@@ -99,7 +101,11 @@
                 <h1 class="title">{{title}}</h1>
                 <h4>Posted by {{username}} at {{timestamp}}</h4>
                 <p>{{description}}</p>
-                <img id="blockImage" v-bind:alt="title" v-bind:src="url">
+                <div id="imageWrapper">
+                    <img id="blockImage" v-bind:alt="title" v-bind:src="url">
+                    <img v-on:click.self.prevent="previousImage($event)" class="arrow leftArrow" src="/images/nextarrow.png"></img>
+                    <img v-on:click.self.prevent="nextImage($event)" class="arrow rightArrow" src="/images/nextarrow.png"></img>
+                </div>
                 <form autocomplete="off" method="post" id="flexCol" v-on:submit.prevent="insertcomment($event)">
                     <label for="username">Username:</label>
                     <input name="username">

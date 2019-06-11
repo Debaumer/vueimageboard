@@ -15,9 +15,10 @@
             modal: {
                 id: null,
                 index: null,
-                show: false
+                show: false,
+                url: null
             },
-            currentImage: location.hash.slice(1) || 0, //set property afterwards to
+            currentImage: null,
             comments: [],
             recentcomments: [],
             moreconfig: {
@@ -71,6 +72,16 @@
                 location.hash = "";
                 this.modal.id = null;
                 this.modal.id = null;
+            },
+            nextimage: function() {
+                console.log("next");
+                window.location.hash =
+                    parseInt(window.location.hash.slice(1)) + 1;
+            },
+            previousimage: function() {
+                console.log("prev");
+                window.location.hash =
+                    parseInt(window.location.hash.slice(1)) - 1;
             },
             switch: function(arg) {
                 if (arg == 1) {
@@ -168,24 +179,18 @@
                 if (!location.hash.length) {
                     return;
                 }
-                var image = e.newURL.slice(23);
-
-                axios
-                    .post("/getImage", { image })
-                    .then(function(resp) {
-                        //console.log(resp.data);
-                        self.currentImage = image;
-                        self.modal.id = image;
-                        //console.log(self.items);
+                var imageId = window.location.hash.slice(1);
+                for (var i = 0; i < self.items.length; i++) {
+                    if (imageId == self.items[i].id) {
+                        self.modal.index = i;
+                        self.modal.url = self.items[i].url;
+                        self.currentImage = imageId;
+                        self.modal.id = imageId;
                         self.modal.show = true;
-                        console.log(self.items[1].id);
-                        console.log(resp.data);
-                        self.modal.url = resp.data.url;
-                        console.log(self.modal.url);
-                    })
-                    .catch(function(err) {
-                        console.log(err);
-                    });
+                        break;
+                    }
+                }
+                console.log("perhaps this code is not hit");
             });
 
             axios
@@ -257,6 +262,16 @@
             },
             insertcomment: function(e) {
                 this.$emit("insertcomment", e.target);
+            },
+            nextImage: function() {
+                console.log(parseInt(this.id) + 1);
+                this.$emit("nextimage");
+                this.$emit("getcomments", this.id + 1);
+            },
+            previousImage: function() {
+                console.log(this.id - 1);
+                this.$emit("previousimage");
+                this.$emit("getcomments", parseInt(this.id) - 1);
             }
         },
         mounted: function() {

@@ -88,7 +88,6 @@ app.post("/getImage", (req, res) => {
     console.log(req.body.image);
     db.getImage(req.body.image)
         .then(data => {
-            console.log(data.rows[0]);
             res.json(data.rows[0]);
         })
         .catch(err => {
